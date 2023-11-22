@@ -5,12 +5,14 @@ const ApiError = require('../utils/ApiError');
 const { reportService } = require('../services');
 
 const createReport = catchAsync(async (req, res) => {
-  const report = await reportService.createReport(req.body);
+  const report = Array.isArray(req.body) 
+  ? await reportService.createReports(req.body)
+  : await reportService.createReport(req.body)
   res.status(httpStatus.CREATED).send(report);
 });
 
 const getReports = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['client', 'rating']);
+  const filter = pick(req.query, ['client', 'rating', 'store']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await reportService.queryReports(filter, options);
   res.send(result);
@@ -25,7 +27,6 @@ const getReport = catchAsync(async (req, res) => {
 });
 
 const updateReport = catchAsync(async (req, res) => {
-  console.log(req.params.reportId)
   const report = await reportService.updateReportById(req.params.reportId, req.body);
   res.send(report);
 });
@@ -34,7 +35,6 @@ const deleteReport = catchAsync(async (req, res) => {
   await reportService.deleteReportById(req.params.reportId);
   res.send({id: req.params.reportId});
 });
-
 
 module.exports = {
   createReport,

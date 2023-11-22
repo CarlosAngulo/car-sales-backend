@@ -32,12 +32,16 @@ const reportSchema = mongoose.Schema(
       type: String,
     },
     salesPerson: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
     active: {
-        type: Boolean,
-        default: true,
+      type: Boolean,
+      default: true,
+    },
+    store: {
+      type: String,
+      required: true,
     },
   },
   {

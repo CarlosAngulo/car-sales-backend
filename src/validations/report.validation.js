@@ -14,6 +14,7 @@ const getReports = {
   query: Joi.object().keys({
     client: Joi.string(),
     rating: Joi.string(),
+    store: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

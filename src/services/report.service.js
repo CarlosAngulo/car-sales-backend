@@ -1,13 +1,23 @@
 const httpStatus = require('http-status');
 const { Report } = require('../models');
 const ApiError = require('../utils/ApiError');
+
 /**
  * Create a report
- * @param {Object} reportBody
+ * @param {Object | Array<Object>} reportBody
  * @returns {Promise<Report>}
  */
 const createReport = async (reportBody) => {
   return Report.create(reportBody);
+};
+
+/**
+ * Create a report
+ * @param {Array} reporstBody
+ * @returns {Promise<Report[]>}
+ */
+const createReports = async (reportsBody) => {
+  return Report.insertMany(reportsBody);
 };
 
 /**
@@ -20,10 +30,10 @@ const createReport = async (reportBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryReports = async (filter, options) => {
+    console.log(filter)
     const report = await Report.paginate(filter, options);
     return report;
 };
-
 
 /**
  * Get report by id
@@ -35,13 +45,12 @@ const getReportById = async (id) => {
 };
 
 /**
- * Update user by id
- * @param {ObjectId} userId
+ * Update report by id
+ * @param {ObjectId} reportId
  * @param {Object} updateBody
- * @returns {Promise<User>}
+ * @returns {Promise<Report>}
  */
 const updateReportById = async (reportId, updateBody) => {
-    console.log(reportId)
     const report = await getReportById(reportId);
     if (!report) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Report not found');
@@ -54,7 +63,7 @@ const updateReportById = async (reportId, updateBody) => {
 /**
  * Delete report by id
  * @param {ObjectId} reportId
- * @returns {Promise<User>}
+ * @returns {Promise<Report>}
  */
 const deleteReportById = async (reportId) => {
     const report = await getReportById(reportId);
@@ -67,6 +76,7 @@ const deleteReportById = async (reportId) => {
 
 module.exports = {
   createReport,
+  createReports,
   queryReports,
   getReportById,
   updateReportById,
