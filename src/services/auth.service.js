@@ -45,7 +45,10 @@ const refreshAuth = async (refreshToken) => {
       throw new Error();
     }
     await refreshTokenDoc.remove();
-    return tokenService.generateAuthTokens(user);
+    return {
+      user,
+      tokens: await tokenService.generateAuthTokens(user)
+    };
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
   }
@@ -58,9 +61,12 @@ const refreshAuth = async (refreshToken) => {
  * @returns {Promise}
  */
 const resetPassword = async (resetPasswordToken, newPassword) => {
+  console.log(0, resetPasswordToken, newPassword)
   try {
     const resetPasswordTokenDoc = await tokenService.verifyToken(resetPasswordToken, tokenTypes.RESET_PASSWORD);
+    console.log(1, resetPasswordTokenDoc)
     const user = await userService.getUserById(resetPasswordTokenDoc.user);
+    console.log(2, user)
     if (!user) {
       throw new Error();
     }

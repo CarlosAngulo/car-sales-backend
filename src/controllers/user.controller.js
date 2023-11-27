@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { userService } = require('../services');
+const { userService, emailService, tokenService } = require('../services');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -11,6 +11,8 @@ const createUser = catchAsync(async (req, res) => {
 
 const createUserByAdmin = catchAsync(async (req, res) => {
   const user = await userService.createUserByAdmin(req.body);
+  const passwordToken = await tokenService.generateResetPasswordToken(req.body.email);
+  await emailService.sendCreatePasswordEmail(req.body.email, passwordToken);
   res.status(httpStatus.CREATED).send(user);
 });
 

@@ -13,6 +13,7 @@ const login = {
   body: Joi.object().keys({
     email: Joi.string().required(),
     password: Joi.string().required(),
+    rememberMe: Joi.boolean()
   }),
 };
 
@@ -35,11 +36,10 @@ const forgotPassword = {
 };
 
 const resetPassword = {
-  query: Joi.object().keys({
-    token: Joi.string().required(),
-  }),
   body: Joi.object().keys({
     password: Joi.string().required().custom(password),
+    confirmPassword: Joi.string().required().custom(password),
+    token: Joi.string().required()
   }),
 };
 
