@@ -30,7 +30,6 @@ const createReports = async (reportsBody) => {
  * @returns {Promise<QueryResult>}
  */
 const queryReports = async (filter, options) => {
-    console.log(filter)
     const report = await Report.paginate(filter, options);
     return report;
 };

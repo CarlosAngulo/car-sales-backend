@@ -12,7 +12,24 @@ const createReport = catchAsync(async (req, res) => {
 });
 
 const getReports = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['client', 'rating', 'store']);
+  const filter = pick(req.query, ['client', 'rating', 'store', 'salesPerson', 'submitted']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await reportService.queryReports(filter, options);
+  res.send(result);
+});
+
+const getReportsByUser = catchAsync(async (req, res) => {
+  const query = { ... req.query};
+  if (req.query.startDate && req.query.endDate) {
+    query.submitted = {
+      $gte: req.query.startDate,
+      $lte: req.query.endDate
+    }
+  }
+  const filter = {
+    ... pick(query, ['client', 'rating', 'store', 'salesPerson', 'submitted']),
+    salesPerson: req.user.id
+  };
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await reportService.queryReports(filter, options);
   res.send(result);
@@ -38,6 +55,7 @@ const deleteReport = catchAsync(async (req, res) => {
 
 module.exports = {
   createReport,
+  getReportsByUser,
   getReports,
   getReport,
   updateReport,
