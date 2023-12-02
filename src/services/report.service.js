@@ -35,6 +35,16 @@ const queryReports = async (filter, options) => {
 };
 
 /**
+ * Query for reports
+ * @param {Object} filter - Mongo filter
+ * @returns {Promise<number>}
+ */
+const numReportsByUser = async (filter) => {
+  const numReports = await Report.count(filter);
+  return numReports;
+};
+
+/**
  * Get report by id
  * @param {ObjectId} id
  * @returns {Promise<Report>}
@@ -76,6 +86,7 @@ const deleteReportById = async (reportId) => {
 module.exports = {
   createReport,
   createReports,
+  numReportsByUser,
   queryReports,
   getReportById,
   updateReportById,

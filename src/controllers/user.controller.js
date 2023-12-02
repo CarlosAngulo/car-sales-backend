@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { userService, emailService, tokenService } = require('../services');
+const { userService, emailService, tokenService, reportService } = require('../services');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -37,8 +37,13 @@ const updateUser = catchAsync(async (req, res) => {
 });
 
 const deleteUser = catchAsync(async (req, res) => {
-  await userService.deleteUserById(req.params.userId);
-  res.status(httpStatus.NO_CONTENT).send();
+  const numReports = await reportService.numReportsByUser({salesPerson: req.params.userId});
+  if (numReports > 0) {
+    res.send({ usedIn: numReports })
+  } else {
+    await userService.deleteUserById(req.params.userId);
+    res.send({ success: true });
+  }
 });
 
 module.exports = {
