@@ -4,13 +4,17 @@ const config = require('./config/config');
 const logger = require('./config/logger');
 
 let server;
-mongoose.set('strictQuery', false);
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+mongoose
+  .connect(config.mongoose.url, config.mongoose.options)
+  .then(() => {
+    logger.info('Connected to MongoDB');
+    server = app.listen(config.port, () => {
+      logger.info(`Listening to port ${config.port}`);
+    });
+  })
+  .catch((err) => {
+    logger.info('Error while connecting to MongoDB: ', err);
   });
-});
 
 const exitHandler = () => {
   if (server) {
