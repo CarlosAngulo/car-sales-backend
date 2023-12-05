@@ -36,14 +36,6 @@ app.use(mongoSanitize());
 
 // gzip compression
 app.use(compression());
-
-// enable cors
-
-var corsOptions = {
-  origin: 'http://localhost:4200'
-}
-
-app.use(cors(corsOptions));
 app.options('*', cors());
 
 // jwt authentication
