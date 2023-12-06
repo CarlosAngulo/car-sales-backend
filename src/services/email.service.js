@@ -8,7 +8,7 @@ if (config.env !== 'test') {
   transport
     .verify()
     .then(() => logger.info('Connected to email server'))
-    .catch((err) => logger.warn('Unable to connect to email server. Make sure you have configured the SMTP options in .env'));
+    .catch(() => logger.warn('Unable to connect to email server. Make sure you have configured the SMTP options in .env'));
 }
 
 /**
@@ -60,8 +60,8 @@ const getEmailTemplage = (header, body, button, footer) => {
         </table>
       </body>
     </html>
-  `
-}
+  `;
+};
 
 /**
  * Send reset password email
@@ -72,11 +72,11 @@ const getEmailTemplage = (header, body, button, footer) => {
 const sendResetPasswordEmail = async (to, token) => {
   const subject = 'Reset password';
   // replace this url with the link to the reset password page of your front-end app
-  const resetPasswordUrl = `http://localhost:4200/auth/reset-password?token=${token}`;
+  const resetPasswordUrl = `${config.urls.ui}/auth/reset-password?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
     'To reset your password, click on this link.',
-    { link: resetPasswordUrl, text: 'Reset Password'},
+    { link: resetPasswordUrl, text: 'Reset Password' },
     'If you did not request any password resets, then ignore this email.'
   );
   await sendEmail(to, subject, '', htmlContent);
@@ -90,12 +90,11 @@ const sendResetPasswordEmail = async (to, token) => {
  */
 const sendCreatePasswordEmail = async (to, token) => {
   const subject = 'Create password';
-  // replace this url with the link to the reset password page of your front-end app
-  const resetPasswordUrl = `http://localhost:4200/auth/reset-password?token=${token}`;
+  const resetPasswordUrl = `${config.urls.ui}/auth/reset-password?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
     'Necesitas crear un password',
-    { link: resetPasswordUrl, text: 'Create password'},
+    { link: resetPasswordUrl, text: 'Create password' },
     'If you did not request any password resets, then ignore this email.'
   );
   await sendEmail(to, subject, '', htmlContent);
@@ -109,12 +108,11 @@ const sendCreatePasswordEmail = async (to, token) => {
  */
 const sendVerificationEmail = async (to, token) => {
   const subject = 'Email Verification';
-  // replace this url with the link to the email verification page of your front-end app
-  const verificationEmailUrl = `http://localhost:4200/auth/verify-email?token=${token}`;
+  const verificationEmailUrl = `${config.urls.ui}/auth/verify-email?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
     ' To verify your email, click on this link:',
-    { link: verificationEmailUrl, text: 'Verify Email'},
+    { link: verificationEmailUrl, text: 'Verify Email' },
     'If you did not create an account, then ignore this email'
   );
   await sendEmail(to, subject, '', htmlContent);

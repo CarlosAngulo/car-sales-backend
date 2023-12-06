@@ -6,6 +6,8 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const envVarsSchema = Joi.object()
   .keys({
+    API_URI: Joi.string().valid('production', 'development', 'test').required(),
+    UI_URL: Joi.string().valid('production', 'development', 'test').required(),
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().default(3000),
     MONGODB_URL: Joi.string().required().description('Mongo DB url'),
@@ -59,5 +61,9 @@ module.exports = {
       },
     },
     from: envVars.EMAIL_FROM,
+  },
+  urls: {
+    api: envVars.API_URI,
+    ui: envVars.UI_URL,
   },
 };
