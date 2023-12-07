@@ -72,7 +72,7 @@ const getEmailTemplage = (header, body, button, footer) => {
 const sendResetPasswordEmail = async (to, token) => {
   const subject = 'Reset password';
   // replace this url with the link to the reset password page of your front-end app
-  const resetPasswordUrl = `${config.urls.ui}/auth/reset-password?token=${token}`;
+  const resetPasswordUrl = `${config.urls.ui}/auth/resetpassword?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
     'To reset your password, click on this link.',
@@ -90,7 +90,7 @@ const sendResetPasswordEmail = async (to, token) => {
  */
 const sendCreatePasswordEmail = async (to, token) => {
   const subject = 'Create password';
-  const resetPasswordUrl = `${config.urls.ui}/auth/reset-password?token=${token}`;
+  const resetPasswordUrl = `${config.urls.ui}/auth/resetpassword?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
     'You have been added to the Carvision Reviews Tracking Software. Now, you need to create a password to register your account.',
@@ -108,7 +108,7 @@ const sendCreatePasswordEmail = async (to, token) => {
  */
 const sendVerificationEmail = async (to, token) => {
   const subject = 'Email Verification';
-  const verificationEmailUrl = `${config.urls.ui}/auth/verify-email?token=${token}`;
+  const verificationEmailUrl = `${config.urls.ui}/auth/verifyemail?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
     ' To verify your email, click on this link:',
