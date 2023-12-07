@@ -93,9 +93,9 @@ const sendCreatePasswordEmail = async (to, token) => {
   const resetPasswordUrl = `${config.urls.ui}/auth/reset-password?token=${token}`;
   const htmlContent = getEmailTemplage(
     'Dear user',
-    'Necesitas crear un password',
+    'You have been added to the Carvision Reviews Tracking Software. Now, you need to create a password to register your account.',
     { link: resetPasswordUrl, text: 'Create password' },
-    'If you did not request any password resets, then ignore this email.'
+    'If you think this is a mistake, then ignore this email.'
   );
   await sendEmail(to, subject, '', htmlContent);
 };
